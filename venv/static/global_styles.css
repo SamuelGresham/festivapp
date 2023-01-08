@@ -24,14 +24,15 @@ body {
     padding: 20px;
     font-size: 50pt;
     border-radius: 20px;
-    background-color: white;
+    background-color: transparent;
     border: none;
     transition: background-color 0.5s, color 0.5s;
+    color: white;
 }
 
 #index_gobutton:hover {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     cursor: grab;
 }
 

@@ -12,3 +12,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template('index.html.j2')
+
+@app.route("/login")
+def login():
+    return "Spotify login page goes here ;)"
