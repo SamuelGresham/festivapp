@@ -15,4 +15,20 @@ def index():
 
 @app.route("/login")
 def login():
-    return "Spotify login page goes here ;)"
+    client_id="a6d4ca3ba6e24f8db9a617bad5854451"
+    client_secret="3451c5e4674649bf937ab0ffba583cbd"
+    redirect_uri="localhost:5001/auth"
+    scope="user-library-read"
+
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope,client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri))
+
+    results = sp.current_user_saved_tracks()
+    for idx, item in enumerate(results['items']):
+        track = item['track']
+        print(idx, track['artists'][0]['name'], " – ", track['name'])
+    return "done?"
+
+@app.route("/auth")
+def auth():
+    return("yay")
+
