@@ -1,7 +1,6 @@
-from flask import Flask
-from flask import render_template
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth 
+from flask import Flask, redirect
+from flask import render_template 
+import urllib
 
 # Initialise flask app with name app. 
 # Passing name of file as the application name 
@@ -17,16 +16,18 @@ def index():
 def login():
     client_id="a6d4ca3ba6e24f8db9a617bad5854451"
     client_secret="3451c5e4674649bf937ab0ffba583cbd"
-    redirect_uri="localhost:5001/auth"
+    # redirect_uri="https://www.google.com"
+    redirect_uri = "http://localhost:5001"
     scope="user-library-read"
 
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope,client_id=client_id,client_secret=client_secret,redirect_uri=redirect_uri))
+    request_body = {
+        'response_type': 'code',
+        'client_id': client_id,
+        'scope': scope, 
+        'redirect_uri': redirect_uri
+    }
 
-    results = sp.current_user_saved_tracks()
-    for idx, item in enumerate(results['items']):
-        track = item['track']
-        print(idx, track['artists'][0]['name'], " – ", track['name'])
-    return "done?"
+    return redirect('https://accounts.spotify.com/authorize?' + urllib.parse.urlencode(request_body))
 
 @app.route("/auth")
 def auth():
