@@ -4,6 +4,7 @@ import urllib
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import requests
+import json
 
 import util
 
@@ -42,14 +43,15 @@ def auth():
     else: # if the user has passed auth, redirect to get the spotify token
         post_params = {
             'grant_type': "authorization_code", 
-            "code": request.args.get("code"),
+            "code": str(request.args.get("code")),
             "redirect_uri": "http://localhost:5001/auth"
         }
         print(str(post_params["code"]))
         post_headers = {
-            "Authorization": "Authorization: Basic " + util.convert_base64(client_id + ":" + client_secret),
-            "Content_Type": "application/x-www-form-urlencoded"
+            "Authorization": "Authorization: Bearer " + util.convert_base64(str(client_id) + ":" + str(client_secret)),
+            # "Content_Type": "application/x-www-form-urlencoded"
         }
+        print(post_headers["Authorization"])
         r = requests.post('https://api.spotify.com/v1/api/token', data=post_params, headers=post_headers)
 
         print(r.text)

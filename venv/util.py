@@ -13,6 +13,4 @@ def url_get (url: str, parameters: dict):
     return str(url) + "?" + urllib.parse.urlencode(parameters)
 
 def convert_base64 (string: str): 
-    string_bytes = string.encode("ascii")
-    base64_bytes = base64.b64encode(string_bytes)
-    return base64_bytes.decode("ascii") 
+    return base64.b64encode(string.encode()).decode()
