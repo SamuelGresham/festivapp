@@ -4,15 +4,18 @@ var redirect_uri = 'http://localhost:3000/callback';
 const express = require('express')
 const app = express()
 const port = 3000
+app.set('view engine', 'pug')
 
 const client_secret = "3451c5e4674649bf937ab0ffba583cbd"
 
 var querystring = require('querystring');
 var request = require('request'); // "Request" library
 
+app.get('/', function(req, res) {
+  res.redirect("/login")
+})
 
 app.get('/login', function(req, res) {
-  console.log("/login called")
 
   var state = "abc";
   var scope = 'user-read-private user-read-email';
@@ -30,7 +33,6 @@ app.get('/login', function(req, res) {
 
 
 app.get('/callback', function(req, res) {
-  console.log("/callback called")
 
   var code = req.query.code || null;
   var state = req.query.state || null;
@@ -68,12 +70,18 @@ app.get('/callback', function(req, res) {
         json: true
       };
       request.get(options, function(error, response, body) {
-        console.log(body);
+        res.render("index", {
+          title: "Welcome!",
+          message: "Welcome to Festivapp, " + body.display_name
+        })
       });
+    } else {
+      console.error("Authentication failed")
+      res.render("Error")
     }
   })
 
-  res.send(req.query.code)
+  
 });
 
 
