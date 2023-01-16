@@ -21,10 +21,11 @@ app.get('/login', function(req, res) {
   var scope = 'user-read-private user-read-email';
 
   console.log("Redirecting")
+  require('dotenv').config();
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
-      client_id: client_id,
+      client_id: process.env.CLIENT_ID,
       scope: scope,
       redirect_uri: redirect_uri,
       state: state
@@ -36,6 +37,7 @@ app.get('/callback', function(req, res) {
 
   var code = req.query.code || null;
   var state = req.query.state || null;
+  require('dotenv').config();
 
   if (state === null) {
     res.redirect('/#' +
@@ -51,7 +53,7 @@ app.get('/callback', function(req, res) {
         grant_type: 'authorization_code'
       },
       headers: {
-        'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64'))
+        'Authorization': 'Basic ' + (Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64'))
       },
       json: true
     };
