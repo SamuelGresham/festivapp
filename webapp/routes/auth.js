@@ -49,12 +49,16 @@ exports.callback = function (req, res) {
   
       // use the access token to access the Spotify Web API
       var token = body.access_token;
+
+      res.redirect("/home?" + querystring.stringify({token:token}));
+      
+      /*
       var options = {
-      url: 'https://api.spotify.com/v1/users/samuelgresham12',
-      headers: {
-         'Authorization': 'Bearer ' + token
-      },
-      json: true
+         url: 'https://api.spotify.com/v1/users/samuelgresham12',
+         headers: {
+            'Authorization': 'Bearer ' + token
+         },
+         json: true
       };
       request.get(options, function(error, response, body) {
       res.render("index", {
@@ -62,6 +66,7 @@ exports.callback = function (req, res) {
          message: "Welcome to Festivapp, " + body.display_name
       })
       });
+      */
       } else {
          console.error("Authentication failed")
          res.render("Error")

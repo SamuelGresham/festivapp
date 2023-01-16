@@ -36,3 +36,13 @@ body {
     cursor: grab;
 }
 
+#home_title {
+    font-size: 75pt;
+    margin-top: 40px
+}
+
+#profile_photo {
+    border-radius: 50%;
+    width: 15%
+}
+
